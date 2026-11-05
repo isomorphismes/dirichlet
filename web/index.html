@@ -6,36 +6,42 @@
   <meta name="color-scheme" content="dark">
   <title>Dirichlet × Wegert — phase portraits</title>
   <style>
-    :root { color-scheme: dark; font-family: system-ui, sans-serif; background: #101419; color: #e9e8e5; }
+    :root { color-scheme: dark; font-family: system-ui, sans-serif;
+      --background: #212121; --surface: #2F2F2F; --interactive: #383838;
+      --border: #454545; --text: #F4F4F4; --secondary: #B4B4B4;
+      --disabled: #858585; --selection: #595959; --focus: #B4B4B4;
+      background: var(--background); color: var(--text); }
     * { box-sizing: border-box; } [hidden] { display: none !important; }
     body { margin: 0; }
-    header { padding: 20px max(18px, 3vw) 14px; border-bottom: 1px solid #323b42; }
-    .eyebrow { color: #bac8cc; letter-spacing: .12em; text-transform: uppercase; font-size: .75rem; }
+    header { padding: 20px max(18px, 3vw) 14px; border-bottom: 1px solid var(--border); }
+    .eyebrow { color: var(--secondary); letter-spacing: .12em; text-transform: uppercase; font-size: .75rem; }
     h1 { margin: 7px 0 6px; font-size: clamp(1.35rem, 3.8vw, 2.2rem); font-weight: 560; }
-    header p { margin: 0; color: #b4c0c4; font-size: .91rem; }
+    header p { margin: 0; color: var(--secondary); font-size: .91rem; }
     main { padding: 18px max(14px, 2vw) 26px; display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
-    figure { position: relative; margin: 0; min-width: 0; border: 1px solid #49515a; border-radius: 9px; overflow: hidden; background: #171e23; }
+    figure { position: relative; margin: 0; min-width: 0; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; background: var(--background); }
     canvas { display: block; width: 100%; height: min(74vh, 730px); min-height: 320px; touch-action: none; cursor: crosshair; }
-    .view-label, .view-hint { position: absolute; pointer-events: none; background: rgba(13,18,22,.77); border: 1px solid #535e65; border-radius: 5px; padding: 6px 9px; font-size: .77rem; }
+    .view-label, .view-hint { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 6px 9px; font-size: .77rem; }
     .view-label { left: 12px; top: 12px; }
-    .view-hint { left: 12px; bottom: 12px; color: #d2d8d7; }
-    aside { border: 1px solid #3b454b; border-radius: 9px; background: #1b2329; padding: 17px; }
+    .view-hint { left: 12px; bottom: 12px; color: var(--secondary); }
+    aside { border: 1px solid var(--border); border-radius: 9px; background: var(--surface); padding: 17px; }
     h2 { font-size: .95rem; font-weight: 650; margin: 0 0 15px; }
     .control { display: grid; gap: 7px; margin: 0 0 16px; }
-    .control label { color: #c9d2d2; font-size: .88rem; }
-    select, input[type=number], button { min-height: 40px; padding: 8px 10px; color: inherit; background: #2c373f; border: 1px solid #65717a; border-radius: 5px; width: 100%; font: inherit; }
-    select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid #ccdecf; outline-offset: 2px; }
-    button { cursor: pointer; } button:hover { background: #3a454f; }
-    input[type=range] { width: 100%; accent-color: #ced9cd; }
-    .value { color: #f1ece0; font-variant-numeric: tabular-nums; }
-    .readout { border-top: 1px solid #425057; margin-top: 16px; padding-top: 14px; }
+    .control label { color: var(--secondary); font-size: .88rem; }
+    select, input[type=number], button { min-height: 40px; padding: 8px 10px; color: var(--text); background: var(--interactive); border: 1px solid var(--border); border-radius: 5px; width: 100%; font: inherit; }
+    select:focus-visible, input:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+    button { cursor: pointer; } button:hover { background: var(--border); }
+    select:disabled, input:disabled, button:disabled { color: var(--disabled); }
+    ::selection { background: var(--selection); color: var(--text); }
+    input[type=range] { width: 100%; accent-color: var(--focus); }
+    .value { color: var(--text); font-variant-numeric: tabular-nums; }
+    .readout { border-top: 1px solid var(--border); margin-top: 16px; padding-top: 14px; }
     .readout p { overflow-wrap: anywhere; font-size: .86rem; margin: 7px 0; line-height: 1.5; }
-    .key { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: #9aaeb5; }
+    .key { font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; color: var(--secondary); }
     #formula, #probe { white-space: pre-wrap; font-variant-numeric: tabular-nums; }
-    #scope { color: #d8d8cd; }
-    #status { font-size: .75rem; color: #a6bec0; margin-top: 14px; overflow-wrap: anywhere; }
-    footer { color: #9babb0; padding: 0 18px 26px; font-size: .78rem; }
-    a { color: #b8dbd8; }
+    #scope { color: var(--secondary); }
+    #status { font-size: .75rem; color: var(--secondary); margin-top: 14px; overflow-wrap: anywhere; }
+    footer { color: var(--secondary); padding: 0 18px 26px; font-size: .78rem; }
+    a { color: var(--text); }
     @media (max-width: 780px) {
       main { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
       canvas { height: min(56vh, 500px); min-height: 300px; }

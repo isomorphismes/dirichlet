@@ -173,6 +173,19 @@ function render() {
   gl.drawArrays(gl.TRIANGLES,0,3);
   // Opt-in proof of actual browser draw and readback (not Android evidence).
   if (new URLSearchParams(location.search).get('smoke') === '1') {
+    // Observe actual CSS without changing the scientific WebGL pixels.
+    const root=document.documentElement;
+    const colors=[[root,'backgroundColor','rgb(33, 33, 33)'],
+      [root,'color','rgb(244, 244, 244)'],
+      [document.querySelector('aside'),'backgroundColor','rgb(47, 47, 47)'],
+      [byId('reset'),'backgroundColor','rgb(56, 56, 56)'],
+      [status,'color','rgb(180, 180, 180)']];
+    const charcoal=()=>colors.every(([node,property,value])=>getComputedStyle(node)[property]===value);
+    const normal=charcoal();
+    root.style.setProperty('--background','#FFFFFF');
+    const rejectsWhite=!charcoal();
+    root.style.removeProperty('--background');
+    status.dataset.charcoalPalette=normal && rejectsWhite && charcoal()?'pass':'fail';
     const pixel = new Uint8Array(4);
     gl.readPixels(Math.floor(width/2),Math.floor(height/2),1,1,
       gl.RGBA,gl.UNSIGNED_BYTE,pixel);

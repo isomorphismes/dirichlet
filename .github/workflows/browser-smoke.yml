@@ -10,12 +10,15 @@ jobs:
   browser:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
       - name: Render actual pinned Wegert GLSL with WebGL2 and read its pixel
         run: bash tests/browser-smoke.sh
       - name: Keep browser screenshot (headless Chromium, not MIRO A1)
         if: success()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: dirichlet-wegert-headless-browser
           path: /tmp/dirichlet-browser-portrait-*.png
