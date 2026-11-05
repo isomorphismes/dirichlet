@@ -21,6 +21,7 @@ for mode in 0 1 2 3; do
     exit 1
   fi
   grep -q 'WebGL2 GLSL linked' "/tmp/dirichlet-dom-$mode.html"
+  grep -q 'data-charcoal-palette="pass"' "/tmp/dirichlet-dom-$mode.html"
   "$chrome" --headless=new --no-sandbox --disable-dev-shm-usage --enable-unsafe-swiftshader --use-angle=swiftshader --use-gl=angle --enable-webgl --virtual-time-budget=15000 --window-size=1280,900 --user-data-dir="/tmp/dirichlet-chrome-shot-$mode" --screenshot="/tmp/dirichlet-browser-portrait-$mode.png" "$url" >/tmp/dirichlet-shot.log 2>&1
   test -s "/tmp/dirichlet-browser-portrait-$mode.png"
   echo "Mode $mode: $(grep -oE 'data-smoke-pixel="[0-9,]+"' "/tmp/dirichlet-dom-$mode.html")"
